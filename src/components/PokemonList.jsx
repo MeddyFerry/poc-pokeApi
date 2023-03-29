@@ -1,4 +1,3 @@
-import "./PokemonList.css";
 import React from "react";
 
 const PokemonList = ({ pokemon }) => {
