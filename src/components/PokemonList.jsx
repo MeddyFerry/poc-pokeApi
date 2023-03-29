@@ -6,7 +6,7 @@ const PokemonList = ({ pokemon }) => {
   }
 
   return (
-    <div className="card flex flex-col content-center">
+    <div className="card flex flex-col flex-nowrap justify-center items-center content-center">
       <h2>{pokemon.name}</h2>
       <img
         className="w-32 h-32 object-cover object-center"
