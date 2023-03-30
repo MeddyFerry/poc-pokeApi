@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
+//import PokemonCard from "./PokemonCard";
 import axios from "axios";
 
-const SearchBar = ({ setPokemon }) => {
+function PokemonSearch({ setPokemon, pokemon }) {
   const [pokemonName, setPokemonName] = useState("");
 
   const searchPokemon = () => {
@@ -24,12 +25,10 @@ const SearchBar = ({ setPokemon }) => {
       console.log(error);
     }
   };
+
   return (
     <div>
-      <label
-        htmlFor="default-search"
-        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-      >
+      <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
         Search
       </label>
       <div className="relative">
@@ -42,18 +41,12 @@ const SearchBar = ({ setPokemon }) => {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round "
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            ></path>
           </svg>
         </div>
         <input
           type="search"
           id="default-search"
-          onChange={(e) => setPokemonName(e.target.value)}
+          onChange={(e) => setPokemonName(e.target.value.toLowerCase())}
           className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 
         rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 
         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
@@ -74,8 +67,27 @@ const SearchBar = ({ setPokemon }) => {
           Search
         </button>
       </div>
+      {
+        pokemon.name ? (
+          <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-1/2 mx-auto card flex flex-col flex-nowrap justify-center items-center content-center mt-10 
+             rounded-lg shadow-md">
+            <h2>{pokemon.name}</h2>
+            <img
+              className="w-32 h-32 object-cover object-center"
+              src={pokemon.Image}
+              alt={pokemon.name}
+            />
+            <p>Espèce : {pokemon.species}</p>
+            <p>HP : {pokemon.hp}</p>
+            <p>Attaque : {pokemon.attack}</p>
+            <p>Défense : {pokemon.defense}</p>
+            <p>Type : {pokemon.type}</p>
+          </div>
+        ) : (
+          <p className="text-red-600 pt-6"> Aucun Pokémon sélectionné</p>
+        )}
     </div>
   );
-};
+}
 
-export default SearchBar;
+export default PokemonSearch;

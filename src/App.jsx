@@ -1,7 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import Header from "./components/Header";
+import Home from "./components/home";
 import SearchBar from "./components/SearchBar"
-import PokemonList from "./components/PokemonList"
+
 import "./App.css";
 
 function App() {
@@ -16,8 +20,12 @@ function App() {
   });
   return (
     <div>
-      <SearchBar setPokemon={setPokemon} />
-      <PokemonList pokemon={pokemon} />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<SearchBar pokemon={pokemon} setPokemon={setPokemon} />} />
+      </Routes>
+
     </div>
   );
 };
