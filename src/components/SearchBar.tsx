@@ -1,34 +1,37 @@
 import React from "react";
 import { useState } from "react";
-//import PokemonCard from "./PokemonCard";
 import axios from "axios";
+import { searchPokemon } from "../service/pokemonService";
+import { Pokemon } from "../models/pokemons";
 
 function PokemonSearch({ setPokemon, pokemon }) {
   const [pokemonName, setPokemonName] = useState("");
 
-  const searchPokemon = () => {
+  const handleClick = async () => {
     try {
-      axios
-        .get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
-        .then((res) => {
-          setPokemon({
-            name: pokemonName,
-            species: res.data.species.name,
-            Image: res.data.sprites.front_default,
-            hp: res.data.stats[0].base_stat,
-            attack: res.data.stats[1].base_stat,
-            defense: res.data.stats[2].base_stat,
-            type: res.data.types[0].type.name,
-          });
+      const res = await searchPokemon(pokemonName);
+      if (res) {
+        setPokemon({
+          name: pokemonName,
+          species: res.species.name,
+          Image: res.sprites.front_default,
+          hp: res.stats[0].base_stat,
+          attack: res.stats[1].base_stat,
+          defense: res.stats[2].base_stat,
+          type: res.types[0].type.name,
         });
+      }
     } catch (error) {
-      console.log(error);
+      console.log("error");
     }
   };
 
   return (
     <div>
-      <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
+      <label
+        htmlFor="default-search"
+        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+      >
         Search
       </label>
       <div className="relative">
@@ -40,8 +43,7 @@ function PokemonSearch({ setPokemon, pokemon }) {
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-          >
-          </svg>
+          ></svg>
         </div>
         <input
           type="search"
@@ -57,7 +59,7 @@ function PokemonSearch({ setPokemon, pokemon }) {
 
         <button
           type="submit"
-          onClick={searchPokemon}
+          onClick={handleClick}
           className="text-white absolute right-2.5 bottom-2.5 
         bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
         focus:ring-blue-300 font-medium rounded-lg 
@@ -67,25 +69,27 @@ function PokemonSearch({ setPokemon, pokemon }) {
           Search
         </button>
       </div>
-      {
-        pokemon.name ? (
-          <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-1/2 mx-auto card flex flex-col flex-nowrap justify-center items-center content-center mt-10 
-             rounded-lg shadow-md">
-            <h2>{pokemon.name}</h2>
-            <img
-              className="w-32 h-32 object-cover object-center"
-              src={pokemon.Image}
-              alt={pokemon.name}
-            />
-            <p>Espèce : {pokemon.species}</p>
-            <p>HP : {pokemon.hp}</p>
-            <p>Attaque : {pokemon.attack}</p>
-            <p>Défense : {pokemon.defense}</p>
-            <p>Type : {pokemon.type}</p>
-          </div>
-        ) : (
-          <p className="text-red-600 pt-6"> Aucun Pokémon sélectionné</p>
-        )}
+
+      {pokemon.name ? (
+        <div
+          className="bg-gradient-to-r from-cyan-500 to-blue-500 w-1/2 mx-auto card flex flex-col flex-nowrap justify-center items-center content-center mt-10 
+             rounded-lg shadow-md"
+        >
+          <h2>{pokemon.name}</h2>
+          <img
+            className="w-32 h-32 object-cover object-center"
+            src={pokemon.Image}
+            alt={pokemon.name}
+          />
+          <p>Espèce : {pokemon.species}</p>
+          <p>HP : {pokemon.hp}</p>
+          <p>Attaque : {pokemon.attack}</p>
+          <p>Défense : {pokemon.defense}</p>
+          <p>Type : {pokemon.type}</p>
+        </div>
+      ) : (
+        <p className="text-red-600 pt-6"> Aucun Pokémon sélectionné</p>
+      )}
     </div>
   );
 }
