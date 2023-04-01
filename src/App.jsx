@@ -19,6 +19,7 @@ function App() {
     type: '',
   });
   return (
+
     <div>
       <Header />
       <Routes>
