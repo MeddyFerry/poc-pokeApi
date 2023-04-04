@@ -1,34 +1,25 @@
 import React from "react";
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
-import Home from "./components/home";
-import SearchBar from "./components/SearchBar"
+import Home from "./components/Home";
+import Posts from "./components/Posts";
 
 import "./App.css";
 
-function App() {
-  const [pokemon, setPokemon] = useState({
-    name: '',
-    species: '',
-    Image: '',
-    hp: '',
-    attack: '',
-    defense: '',
-    type: '',
-  });
-  return (
+function App({ loading, pokemonList, currentPosts, currentPage, postsPerPage }) {
 
+
+  return (
     <div>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<SearchBar pokemon={pokemon} setPokemon={setPokemon} />} />
+        <Route path="/posts" element={<Posts Posts={currentPosts} loading={loading} pokemonList={pokemonList} />} />
       </Routes>
-
     </div>
   );
-};
+}
 
 export default App;
+

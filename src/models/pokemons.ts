@@ -12,3 +12,9 @@ export interface PokemonItemList {
   name: string;
   url: string;
 }
+
+export interface PostsProps {
+  loading: boolean;
+  pokemonList: Pokemon[];
+  currentPage: number;
+}

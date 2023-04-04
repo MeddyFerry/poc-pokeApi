@@ -1,8 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import { searchPokemon } from "../service/pokemonService";
-import { Pokemon } from "../models/pokemons";
 
 function PokemonSearch({ setPokemon, pokemon }) {
   const [pokemonName, setPokemonName] = useState("");

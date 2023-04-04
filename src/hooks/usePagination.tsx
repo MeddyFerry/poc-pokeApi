@@ -1,49 +1,36 @@
-import { useEffect, useState } from "react";
-import { getPokemons } from "../service/pokemonService";
-import { PokemonItemList } from "../models/pokemons";
+import React from "react";
+import { useState } from "react";
 
-export const usePagination = () => {
-  const [page, setPage] = useState<number>(1);
-  const [pokemonslist, setpokemonslist] = useState<PokemonItemList[]>([]);
+export const usePagination = ({ pokemonList }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(3);
 
-  useEffect(() => {
-    async function fetchData(): Promise<void> {
-      try {
-        const pokemons: PokemonItemList[] = await getPokemons(20, page);
-        setpokemonslist(pokemons);
-      } catch (error) {}
-    }
-    fetchData();
-  }, [page]);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = pokemonList.slice(indexOfFirstPost, indexOfLastPost);
 
-  const prev = () => {
-    setPage((previousValue) => previousValue - 1);
+  const pageNumbers: number[] = [];
+  for (let i = 1; i <= Math.ceil(pokemonList.length / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return {
+    currentPosts,
+    pagination: (
+      <nav>
+        <ul className="flex">
+          {pageNumbers.map((number) => (
+            <li key={number} className="px-4">
+              <button
+                onClick={() => setCurrentPage(number)}
+                className="text-gray-700 hover:text-gray-900"
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ),
   };
-
-  const next = () => {
-    setPage((previousValue) => previousValue + 1);
-  };
-  // const indexLastPage = page * pokemonslist.length;
-  // const indexFirstPage = indexLastPage - pokemonslist.length;
-  // const currentPokemons = pokemonslist.slice(indexFirstPage, indexLastPage);
-
-  // for (let i = 1; i <= Math.ceil(page / pokemonslist.length); i++) {
-  //   //pokemonslist.push(i);
-  // }
-
-  return { pokemonslist, prev, next };
 };
-
-/**
- * au lieu d'avoir 2 boutons j'affiche 1.2.3;4;5;6;7;8;9;10
- * et si je clique sur 5 j'atteris sur la pge 5
- *
- * garder les boutons prev et next mais si je suis pas sur la page 1 je peux pas faire précendt
- *
- *
- */
-
-/**
- * quand je clique sur un pokemon, ca  m'ammene sur une page de detail du pokemon
- *
- */
