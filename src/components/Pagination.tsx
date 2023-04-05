@@ -15,7 +15,7 @@ export const Pagination = ({ totalPosts, postsPerPage, paginate }: Props) => {
   }
 
   return (
-    <nav>
+    <nav className="bg-white rounded-lg">
       <ul className="pagination flex justify-center">
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">

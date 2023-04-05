@@ -5,8 +5,8 @@ import "./posts.css";
 const Posts = ({ currentPosts }) => {
   const hoverVariants = {
     hover: {
-      scale: 1.05,
-      boxShadow: "0px 0px 10px #9CA3AF",
+      scale: 1.17,
+      rotate: 5,
       transition: {
         duration: 0.2,
         type: "tween",
@@ -25,7 +25,7 @@ const Posts = ({ currentPosts }) => {
             variants={hoverVariants}
           >
             <img src={post.image} alt={post.name} className="mx-auto mb-4" />
-            <h2 className="text-center">{post.name}</h2>
+            <h2 className="text-center text-white text-1xl ">{post.name}</h2>
           </motion.div>
         );
       })}

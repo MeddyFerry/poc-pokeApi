@@ -1,6 +1,5 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
-
-module.exports = withMT({
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
@@ -9,5 +8,11 @@ module.exports = withMT({
   theme: {
     extend: {},
   },
-  plugins: [require("flowbite/plugin")],
-});
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/line-clamp"),
+    require("tailwindcss-gradients"),
+  ],
+};

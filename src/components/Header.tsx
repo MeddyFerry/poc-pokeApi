@@ -1,13 +1,27 @@
 import React from "react";
 import logo from "../assets/logo.png";
+import { motion } from "framer-motion";
 
 function Header() {
+  const hoverVariants = {
+    hover: {
+      scale: 1.18,
+      transition: {
+        duration: 0.2,
+        type: "tween",
+      },
+    },
+  };
+
   return (
-    <div
-      className="flex flex-col justify-center items-center content-center"
-      style={{ transform: "scale(0.5)" }}
-    >
-      <img src={logo} alt="My Image" />
+    <div className=" flex flex-col justify-center items-center content-center">
+      <motion.img
+        src={logo}
+        alt="My Image"
+        variants={hoverVariants}
+        whileHover="hover"
+        className="w-1/2 h-1/2"
+      />
       <h1 className="text-5xl font-bold text-center text-gray-700 mt-4 pt-4">
         Bienvenue sur le site de Pokedex
       </h1>

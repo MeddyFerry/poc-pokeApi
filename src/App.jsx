@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const [dataPokemon, setDataPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(50);
+  const [postsPerPage, setPostsPerPage] = useState(100);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +29,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className="app">
       <Header />
       <Posts currentPosts={currentPosts} />
       <Pagination
@@ -37,8 +37,8 @@ function App() {
         totalPosts={dataPokemon.length}
         paginate={setCurrentPage}
       />
-
     </div>
+
   );
 }
 
