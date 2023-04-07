@@ -1,4 +1,4 @@
-const Service = async () => {
+export async function Service() {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`);
   const data = await res.json();
 
@@ -15,6 +15,46 @@ const Service = async () => {
 
   const pokemonData = await Promise.all(promises);
   return pokemonData;
-};
+}
+export async function getPokemonDetails(name: string) {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+  const data = await res.json();
 
-export default Service;
+  const pokemonDetailsData = {
+    name: data.name,
+    is_mythical: data.is_mythical,
+    is_legendary: data.is_legendary,
+    is_baby: data.is_baby,
+  };
+
+  return pokemonDetailsData;
+}
+
+// export async function getPokemonDetails(name: string) {
+//   const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+//   const data = await res.json();
+
+//   const promises = data.results.map(
+//     async (result: { url: RequestInfo | URL }) => {
+//       const res = await fetch(result.url);
+//       const data = await res.json();
+//       return {
+//         name: data.name,
+//         legendairy: data.is_legendary,
+//         baby: data.is_baby,
+//         mythical: data.is_mythical,
+//         generation: data.generation.name,
+//         habitat: data.habitat.name,
+//         color: data.color.name,
+//         shape: data.shape.name,
+//         evolvesFrom: data.evolves_from_species.name,
+//         evolvesTo: data.evolution_chain.name,
+//         flavorText: data.flavor_text_entries[0].flavor_text,
+//         pokedexNumbers: data.pokedex_numbers[0].entry_number,
+//       };
+//     }
+//   );
+
+//   const pokemonDetailsData = await Promise.all(promises);
+//   return pokemonDetailsData;
+// }

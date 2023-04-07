@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { motion } from "framer-motion";
 import "./posts.css";
 
 const Posts = ({ currentPosts }) => {
+  const navigate = useNavigate();
   const hoverVariants = {
     hover: {
       scale: 1.17,
@@ -23,6 +26,9 @@ const Posts = ({ currentPosts }) => {
             className="w-1/4 p-4 card"
             whileHover="hover"
             variants={hoverVariants}
+            onClick={() => {
+              navigate(`/pokemon/${post.name}`);
+            }}
           >
             <img src={post.image} alt={post.name} className="mx-auto mb-4" />
             <h2 className="text-center text-white text-1xl ">{post.name}</h2>

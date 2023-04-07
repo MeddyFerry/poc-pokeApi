@@ -1,0 +1,20 @@
+j'aimerai : 
+- quand je clique sur un pokemon, il m'affiche sa fiche avec ses stats etc ... 
+
+pour ca : 
+- comment je segmente le code ?
+- un nouveau composant ? 
+              oui : un composant pokemonDetails qui affiche la fiche pokemonDetails
+
+- comment j'organise l'information ?
+
+- comment je mets un lien sur mes pokemons pour qu'ils m'affichent leur fiche ?
+              useHistory from react-router-dom
+              
+- quels sont les infos que je dois afficher sur la fiche pokemon ?
+
+GET https://pokeapi.co/api/v2/pokemon-species/{id or name}/ 
+=> is_mythical , is_legendary, is_baby, shape, growth_rate, color, evolves_from_species, habitat, generation, names, pokedex_numbers, flavor_text_entries, form_descriptions, genera, varieties, gender_rate
+
+- comment utiliser l'api ? 
+
