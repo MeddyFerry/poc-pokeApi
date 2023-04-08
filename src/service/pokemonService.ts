@@ -16,6 +16,7 @@ export async function Service() {
   const pokemonData = await Promise.all(promises);
   return pokemonData;
 }
+
 export async function getPokemonDetails(name: string) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
   const data = await res.json();
@@ -25,6 +26,14 @@ export async function getPokemonDetails(name: string) {
     is_mythical: data.is_mythical,
     is_legendary: data.is_legendary,
     is_baby: data.is_baby,
+    generation: data.generation.name,
+    habitat: data.habitat.name,
+    color: data.color.name,
+    shape: data.shape.name,
+    evolvesFrom: data.evolves_from_species.name,
+    evolvesTo: data.evolution_chain.name,
+    flavorText: data.flavor_text_entries[0].flavor_text,
+    pokedexNumbers: data.pokedex_numbers[0].entry_number,
   };
 
   return pokemonDetailsData;
