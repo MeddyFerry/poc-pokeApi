@@ -18,3 +18,205 @@ GET https://pokeapi.co/api/v2/pokemon-species/{id or name}/
 
 - comment utiliser l'api ? 
 
+
+alors, j'aimerai recuperer "image: data.sprites.front_default" depuis ma fonction Services qui se trouve dans un autre fichier pour afficher dans mon composant PokemonDetails l'image correspondante au pokemon cliqué depuis la page "/".
+
+ca c'est le composant ou j'aimerai afficher l'image du pokemon cliqué :
+import React, { useState, useEffect } from "react";
+
+import Posts from "./components/Posts";
+import { Service } from ".././src/service/pokemonService";
+import Header from "./components/Header";
+import { Pagination } from "./components/Pagination";
+import PokemonDetails from "./components/PokemonDetails";
+
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+
+function App() {
+  const [dataPokemon, setDataPokemon] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(100);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await Service({ postsPerPage });
+      setDataPokemon(result);
+    };
+
+    fetchData();
+  }, [postsPerPage]);
+
+
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = dataPokemon.slice(indexOfFirstPost, indexOfLastPost);
+
+
+  return (
+    <div className="app">
+      <Header />
+      <Routes>
+        <Route path="/pokemon/:name" element={<PokemonDetails />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Posts currentPosts={currentPosts} />
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={dataPokemon.length}
+                paginate={paginate}
+              />
+            </>
+          }
+        />
+        <Route path="*" element={<h1>404: Not Found</h1>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+
+ca c'est le composant qui recup les api : 
+export async function Service() {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`);
+  const data = await res.json();
+
+  const promises = data.results.map(
+    async (result: { url: RequestInfo | URL }) => {
+      const res = await fetch(result.url);
+      const data = await res.json();
+      return {
+        name: data.name,
+        image: data.sprites.front_default,
+      };
+    }
+  );
+
+  const pokemonData = await Promise.all(promises);
+  return pokemonData;
+}
+
+export async function getPokemonDetails(name: string) {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+  const data = await res.json();
+
+  const pokemonDetailsData = {
+    image: data.sprites.front_default,
+    name: data.name,
+    is_mythical: data.is_mythical,
+    is_legendary: data.is_legendary,
+    is_baby: data.is_baby,
+    generation: data.generation.name,
+    habitat: data.habitat.name,
+    color: data.color.name,
+    shape: data.shape.name,
+    evolvesFrom: data.evolves_from_species.name,
+    evolvesTo: data.evolution_chain.name,
+    flavorText: data.flavor_text_entries[0].flavor_text,
+    pokedexNumbers: data.pokedex_numbers[0].entry_number,
+  };
+
+  return pokemonDetailsData;
+}
+
+// export async function getPokemonDetails(name: string) {
+//   const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+//   const data = await res.json();
+
+//   const promises = data.results.map(
+//     async (result: { url: RequestInfo | URL }) => {
+//       const res = await fetch(result.url);
+//       const data = await res.json();
+//       return {
+//         name: data.name,
+//         legendairy: data.is_legendary,
+//         baby: data.is_baby,
+//         mythical: data.is_mythical,
+//         generation: data.generation.name,
+//         habitat: data.habitat.name,
+//         color: data.color.name,
+//         shape: data.shape.name,
+//         evolvesFrom: data.evolves_from_species.name,
+//         evolvesTo: data.evolution_chain.name,
+//         flavorText: data.flavor_text_entries[0].flavor_text,
+//         pokedexNumbers: data.pokedex_numbers[0].entry_number,
+//       };
+//     }
+//   );
+
+//   const pokemonDetailsData = await Promise.all(promises);
+//   return pokemonDetailsData;
+// }
+
+et ca c'est le composant app :
+import React, { useState, useEffect } from "react";
+
+import Posts from "./components/Posts";
+import { Service } from ".././src/service/pokemonService";
+import Header from "./components/Header";
+import { Pagination } from "./components/Pagination";
+import PokemonDetails from "./components/PokemonDetails";
+
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+
+function App() {
+  const [dataPokemon, setDataPokemon] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(100);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await Service({ postsPerPage });
+      setDataPokemon(result);
+    };
+
+    fetchData();
+  }, [postsPerPage]);
+
+
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = dataPokemon.slice(indexOfFirstPost, indexOfLastPost);
+
+
+  return (
+    <div className="app">
+      <Header />
+      <Routes>
+        <Route path="/pokemon/:name" element={<PokemonDetails />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Posts currentPosts={currentPosts} />
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={dataPokemon.length}
+                paginate={paginate}
+              />
+            </>
+          }
+        />
+        <Route path="*" element={<h1>404: Not Found</h1>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
