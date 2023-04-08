@@ -38,16 +38,18 @@ function PokemonDetails() {
   }, [name]);
 
   return (
-    <div>
+    <div className="flex justify-center items-center h-screen">
       {pokemonSpecies && (
-        <Card className="pokemon-card">
+        <Card className="flex flex-col items-center">
+          <Card.Header>{pokemonSpecies.name}</Card.Header>
           <Image
             src={`https://img.pokemondb.net/artwork/${pokemonSpecies.name.toLowerCase()}.jpg`}
             wrapped
             ui={false}
+            centered
+            style={{ marginTop: "20px" }}
           />
           <Card.Content>
-            <Card.Header>{pokemonSpecies.name}</Card.Header>
             <Card.Meta>
               Légendaire: {pokemonSpecies.is_legendary ? "Yes" : "No"}
             </Card.Meta>
